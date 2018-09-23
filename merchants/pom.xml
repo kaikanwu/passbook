@@ -53,8 +53,9 @@
             <optional>true</optional>
         </dependency>
         <!--可以帮助方便的操作java bean-->
+
         <dependency>
-            <groupId>org.projectlombot</groupId>
+            <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
         <!--帮助完善测试用例-->
