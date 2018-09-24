@@ -44,7 +44,7 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
         AccessContext.setToken(token);
 
 
-        return false;
+        return true;
     }
 
     /**

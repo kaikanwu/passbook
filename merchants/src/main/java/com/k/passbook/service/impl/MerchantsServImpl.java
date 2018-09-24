@@ -1,5 +1,7 @@
 package com.k.passbook.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.k.passbook.constant.Constants;
 import com.k.passbook.constant.ErrorCode;
 import com.k.passbook.dao.MerchantsDao;
 import com.k.passbook.entity.Merchants;
@@ -10,6 +12,7 @@ import com.k.passbook.vo.PassTemplate;
 import com.k.passbook.vo.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,13 +29,17 @@ public class MerchantsServImpl  implements IMerchantsServ {
     /** Merchants 数据库接口*/
     private final MerchantsDao merchantsDao;
 
+    /** kafka 客户端*/
+    private final KafkaTemplate<String ,String > kafkaTemplate;
+
     /**
      * 以构造函数的方式注入
      * @param merchantsDao
      */
     @Autowired
-    public MerchantsServImpl(MerchantsDao merchantsDao) {
+    public MerchantsServImpl(MerchantsDao merchantsDao, KafkaTemplate<String, String> kafkaTemplate) {
         this.merchantsDao = merchantsDao;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     /**
@@ -81,6 +88,24 @@ public class MerchantsServImpl  implements IMerchantsServ {
 
     @Override
     public Response dropPassTemplate(PassTemplate template) {
-        return null;
+        Response response = new Response();
+        //验证是否已经商户注册
+        ErrorCode errorCode = template.validate(merchantsDao);
+        if (errorCode != ErrorCode.SUCCESS) {
+            response.setErrorCode(errorCode.getCode());
+            response.setErrorMsg(errorCode.getDesc());
+        }else {
+            String passTemplate = JSON.toJSONString(template);
+            //send 方法的三个参数， String topic, String key, String data
+            //这里的key 都设置为同一个值， TEMPLATE_TOPIC = "merchants-template"
+            kafkaTemplate.send(
+                    Constants.TEMPLATE_TOPIC,
+                    Constants.TEMPLATE_TOPIC,
+                    passTemplate
+            );
+            log.info("DropPassTemplate:{}" , passTemplate);
+        }
+
+        return response;
     }
 }

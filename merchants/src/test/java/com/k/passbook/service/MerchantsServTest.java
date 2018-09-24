@@ -2,12 +2,16 @@ package com.k.passbook.service;
 
 import com.alibaba.fastjson.JSON;
 import com.k.passbook.vo.CreateMerchantsRequest;
+import com.k.passbook.vo.PassTemplate;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 /**
  * <h1> 商户服务测试类</h1>
@@ -41,6 +45,24 @@ public class MerchantsServTest {
     @Test
     public void testBuildMerchantsInfoById() {
         System.out.println(JSON.toJSONString(merchantsServ.buildMerchantsInfoById(22)));
+    }
+
+    @Test
+    public void testDropPassTemplate() {
+        PassTemplate passTemplate = new PassTemplate();
+        passTemplate.setId(22);
+        passTemplate.setTitle("title: google");
+        passTemplate.setSummary("简介：google");
+        passTemplate.setDesc("详情： google");
+        passTemplate.setLimit(10000L);
+        passTemplate.setHasToken(false);
+        passTemplate.setBackground(2);
+        passTemplate.setStart(new Date());
+        passTemplate.setEnd(DateUtils.addDays(new Date(), 20));
+
+        System.out.println(JSON.toJSONString(
+                merchantsServ.dropPassTemplate(passTemplate)
+        ));
     }
 
 }
