@@ -9,7 +9,7 @@ import com.k.passbook.vo.Response;
  */
 public interface IMerchantsServ {
     /**
-     * <h2>创建商户服务</h2>
+     * <h2>创建商户</h2>
      * @param request {@link CreateMerchantsRequest}创建商户请求
      * @return {@link Response}
      */

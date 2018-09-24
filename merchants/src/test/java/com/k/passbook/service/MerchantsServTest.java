@@ -25,7 +25,7 @@ public class MerchantsServTest {
      * '@Transactional' 可以实现数据库的自动回滚（自动删除测试用例生成的数据）
      */
     @Test
-    @Transactional
+//    @Transactional
     public void testCreateMerchantsServ() {
         CreateMerchantsRequest request = new CreateMerchantsRequest();
         request.setName("google");
@@ -37,5 +37,10 @@ public class MerchantsServTest {
         System.out.println(JSON.toJSONString(merchantsServ.createMerchants(request)));
     }
 
+
+    @Test
+    public void testBuildMerchantsInfoById() {
+        System.out.println(JSON.toJSONString(merchantsServ.buildMerchantsInfoById(22)));
+    }
 
 }
