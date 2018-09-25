@@ -49,6 +49,7 @@ public class UserRowMapper implements RowMapper<User> {
 //        );
 
 
+
         return new User(
                 Bytes.toLong(result.getRow()), baseInfo, otherInfo
         );

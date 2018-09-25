@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
  *
  * 这个对象里的定义和 HBase 里 User 表格的信息相对应
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     /** 用户 id */
