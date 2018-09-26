@@ -16,7 +16,7 @@ public interface MerchantsDao extends JpaRepository<Merchants, Integer> {
      * @param id 商户id
      * @return {@link Merchants}
      */
-    Merchants findByIdAnd(Integer id);
+    Merchants findById(Integer id);
 
 
     /**

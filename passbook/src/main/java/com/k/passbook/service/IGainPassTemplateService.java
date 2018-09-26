@@ -6,7 +6,7 @@ import com.k.passbook.vo.Response;
 /**
  * <h1> 用户领取优惠券功能实现 </h1>
  */
-public interface IGainPassTempalteService {
+public interface IGainPassTemplateService {
 
     /**
      * <h2> 用户领取优惠券</h2>
