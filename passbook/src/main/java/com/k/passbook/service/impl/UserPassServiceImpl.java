@@ -62,11 +62,12 @@ public class UserPassServiceImpl implements IUserPassService {
     @Override
     public Response userUsePass(Pass pass) {
 
-        // 根据 userId 构造行键前缀
+        // 根据 userId 构造 行键前缀
         byte[] rowPrefix = Bytes.toBytes(new StringBuilder(
                 String.valueOf(pass.getUserId())).reverse().toString());
         Scan scan = new Scan();
         List<Filter> filters = new ArrayList<>();
+        //过滤器的填充
         filters.add(new PrefixFilter(rowPrefix));
         filters.add(new SingleColumnValueFilter(
                 Constants.PassTable.FAMILY_I.getBytes(),
@@ -81,6 +82,7 @@ public class UserPassServiceImpl implements IUserPassService {
                 Bytes.toBytes("-1")
         ));
 
+        //设置过滤器
         scan.setFilter(new FilterList(filters));
 
         List<Pass> passes = hbaseTemplate.find(Constants.PassTable.TABLE_NAME,
@@ -91,6 +93,7 @@ public class UserPassServiceImpl implements IUserPassService {
             return Response.failure("UserUsePass Error");
         }
 
+        //如果符合预期，则去修改数据库
         byte[] FAMILY_I = Constants.PassTable.FAMILY_I.getBytes();
         byte[] CON_DATE = Constants.PassTable.CON_DATE.getBytes();
 
@@ -137,6 +140,7 @@ public class UserPassServiceImpl implements IUserPassService {
             );
         }
 
+        //filters 可以多个，前面用add 添加
         scan.setFilter(new FilterList(filters));
 
         List<Pass> passes = hbaseTemplate.find(Constants.PassTable.TABLE_NAME, scan, new PassRowMapper());
