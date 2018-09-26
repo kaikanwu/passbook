@@ -14,7 +14,7 @@ public class Constants {
     public static final String USED_TOKEN_SUFFIX = "_";
 
     /** 用户数的 redis key*/
-    public static final String USED_COUNT_REDIS_KEY = "user-count";
+    public static final String USE_COUNT_REDIS_KEY = "user-count";
 
 
     /**
